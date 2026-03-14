@@ -1,9 +1,10 @@
 # PROJECT LOG — Avaluador de Repositoris
 
-Aquest document registra les decisions tècniques i l'evolució del projecte.
+Aquest document registra les decisions tècniques i l’evolució del projecte.
 
-Objectiu del projecte:
-Construir una eina Python per analitzar repositoris d'alumnes i detectar evidències d'activitats.
+Objectiu:
+
+Construir una eina Python per analitzar repositoris d’alumnes i detectar evidències d’activitats associades a Resultats d’Aprenentatge (RA).
 
 ---
 
@@ -11,26 +12,40 @@ Construir una eina Python per analitzar repositoris d'alumnes i detectar evidèn
 
 Arquitectura actual:
 
+```
 main.py
 ↓
 ReposLocator
 ↓
-DetectorEvidencies
+RepoScanner
 ↓
-resultats a consola
+RuleEngine
+↓
+CorrectionRegistry
+```
 
-Estructura del repo:
+---
 
+# Estructura actual del repositori
+
+```
 core/
     repos_locator.py
-    detector_evidencies.py
+    repo_scanner.py
+    rule_engine.py
+    rules_registry.py
+    correction_registry.py
 
 data/
-    repos_map.example.json
-    repos_map.json (local)
+    repos_map.json
+    rules.json
+    corrections.json
 
 repos/
     repositoris de prova
+
+main.py
+```
 
 ---
 
@@ -39,61 +54,100 @@ repos/
 ## ReposLocator
 
 Responsabilitat:
-Localitzar el repositori associat a cada unitat d'avaluació.
+
+Localitzar el repositori associat a cada unitat d’avaluació.
 
 Entrada:
+
+```
 data/repos_map.json
+```
 
 Sortida:
-Path al repositori.
+
+```
+path al repositori
+```
 
 ---
 
-## DetectorEvidencies
+## RepoScanner
 
 Responsabilitat:
-Escanejar un repositori i detectar fitxers candidats a evidència.
 
-Primera versió:
-detecció d'imatges (.png, .jpg).
+Escanejar el repositori i generar un inventari de fitxers.
 
----
+Permet:
 
-# Motor actual
-
-El motor actual executa:
-
-python main.py
-
-Flux:
-
-repos_map.json
-→ ReposLocator
-→ DetectorEvidencies
-→ output a consola
+- detectar evidències
+- buscar alternatives
+- desacoblar el motor de la estructura del repo
 
 ---
 
-# Properes funcionalitats previstes
+## RulesRegistry
 
-1️⃣ Definir regles d'evidències
+Responsabilitat:
 
-config/regles_evidencies.json
+Carregar les regles d’evidència definides a configuració.
 
-2️⃣ Sistema de validació
+Fitxer:
 
-esperat vs trobat
+```
+data/rules.json
+```
 
-3️⃣ Generació d'informes
+Aquest component desacobla:
 
-CSV
-JSON
-Markdown
+```
+regles d’avaluació
+```
 
-4️⃣ Suport per múltiples mòduls
+del
 
-SMX
-DAM
+```
+codi Python
+```
+
+---
+
+## RuleEngine
+
+Responsabilitat:
+
+Aplicar les regles sobre l’inventari de fitxers.
+
+Resultats possibles:
+
+```
+exact_match
+alternative_found
+no_evidence
+```
+
+Sortida:
+
+estructura amb evidència detectada.
+
+---
+
+## CorrectionRegistry
+
+Responsabilitat:
+
+Persistir les correccions realitzades pel professor.
+
+Fitxer:
+
+```
+data/corrections.json
+```
+
+Permet:
+
+- reprendre correccions
+- evitar repetir revisions
+- mantenir historial
 
 ---
 
@@ -101,8 +155,86 @@ DAM
 
 Separació entre:
 
-repos_map.example.json → versionat
-repos_map.json → configuració local (gitignore)
+```
+lògica del motor
+```
 
-Motiu:
-evitar paths locals dins del repo.
+i
+
+```
+configuració docent
+```
+
+Això permet:
+
+- adaptar el sistema a diferents cicles
+- modificar evidències sense tocar el codi
+- reutilitzar el motor
+
+---
+
+# Decisions importants
+
+## Unitat d’avaluació abstracta
+
+El motor treballa amb:
+
+```
+RA + unitat d’avaluació
+```
+
+Una unitat pot ser:
+
+```
+alumne
+grup
+```
+
+Això permet suportar:
+
+- repositoris individuals
+- repositoris de grup
+
+sense modificar el motor.
+
+---
+
+# Properes funcionalitats previstes
+
+1️⃣ sistema de revisió assistida
+
+2️⃣ visor automàtic d’evidències
+
+3️⃣ generació d’informes
+
+```
+CSV
+JSON
+Markdown
+```
+
+4️⃣ suport per múltiples mòduls
+
+```
+SMX
+DAM
+```
+
+---
+
+# Estat del projecte
+
+El projecte es troba en fase de **motor funcional inicial**.
+
+Ja existeixen:
+
+- localització de repositoris
+- escaneig de fitxers
+- aplicació de regles
+- registre de correccions
+
+Els següents passos se centraran en:
+
+- millorar la revisió assistida
+- generar informes automàtics
+- integrar múltiples mòduls i RA.
