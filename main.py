@@ -1,33 +1,35 @@
 #!/usr/bin/env python3
 
 from core.repos_locator import ReposLocator
-from core.detector_evidencies import DetectorEvidencies
+from core.repo_scanner import RepoScanner
+from core.rule_engine import RuleEngine
+from core.correction_navigator import CorrectionNavigator
+
+
+ras = [
+    {
+        "id": "AE05",
+        "expected_path": "05_comunicacio/correu_enviat.png",
+        "type": "image"
+    }
+]
 
 
 def main():
 
-    print("=== AVALUADOR DE REPOSITORIS ===")
+    print("\n=== AVALUADOR DE REPOSITORIS ===\n")
 
     locator = ReposLocator("data/repos_map.json")
+    scanner = RepoScanner()
+    rule_engine = RuleEngine()
 
-    unitats = locator.get_all_units()
+    navigator = CorrectionNavigator(
+        locator,
+        scanner,
+        rule_engine
+    )
 
-    for unitat in unitats:
-
-        repo_path = locator.get_repo_path(unitat)
-
-        print(f"\nUnitat: {unitat}")
-        print(f"Repo: {repo_path}")
-
-        detector = DetectorEvidencies(repo_path)
-
-        images = detector.find_images()
-
-        if not images:
-            print("  Cap evidència trobada")
-        else:
-            for img in images:
-                print("  Evidència:", img)
+    navigator.run(ras)
 
 
 if __name__ == "__main__":
