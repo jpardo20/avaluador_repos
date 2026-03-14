@@ -1,6 +1,4 @@
-# avaluador_repos
-
-Eina docent per a l’avaluació assistida de repositoris Git d’alumnes.
+# Eina docent per a l’avaluació assistida de repositoris Git d’alumnes.
 
 Aquest projecte té com a objectiu **reduir radicalment el temps de correcció d’activitats entregades en repositoris Git**, mantenint al mateix temps el criteri docent.
 
