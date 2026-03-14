@@ -38,3 +38,17 @@ class ReposLocator:
         Retorna la llista de totes les unitats d'avaluació.
         """
         return list(self.repo_map.keys())
+
+if __name__ == "__main__":
+    print("Test repos locator")
+
+    try:
+        locator = ReposLocator()
+
+        print("Unitats detectades:")
+        for unitat in locator.list_unitats():
+            path = locator.get_repo_path(unitat)
+            print(f"{unitat} -> {path}")
+
+    except Exception as e:
+        print("Error:", e)
