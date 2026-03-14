@@ -10,6 +10,7 @@ def main():
     print("\n=== AVALUADOR DE REPOSITORIS ===\n")
 
     # Inicialitzar components
+
     locator = ReposLocator("data/repos_map.json")
     scanner = RepoScanner()
     engine = RuleEngine()
