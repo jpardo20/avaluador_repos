@@ -52,6 +52,10 @@ data/repos_map.json
 data/cache/
 data/repos/
 
+# Possible carpeta que conté els repos dels alumnes
+repos/
+
+
 # =====================================================
 # Fitxers temporals
 # =====================================================
