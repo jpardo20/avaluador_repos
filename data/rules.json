@@ -1,31 +1,52 @@
 {
-  "RA_DOC": {
-    "path": "01_document/informe_servidor.docx",
-    "punts": 1
-  },
-
-  "RA_CALC": {
-    "path": "02_calcul/incidencies_sprint.xlsx",
-    "punts": 1
-  },
-
-  "RA_PPT": {
-    "path": "03_presentacio/sprint_t2_review.pptx",
-    "punts": 1
-  },
-
-  "RA_FINAL": {
-    "path": "04_integracio/informe_final.docx",
-    "punts": 1
-  },
-
-  "RA_MAIL_PDF": {
-    "path": "05_comunicacio/correu.pdf",
-    "punts": 1
-  },
-
-  "RA_MAIL_IMG": {
-    "path": "05_comunicacio/correu_enviat.png",
-    "punts": 1
-  }
+    "RA_DOC": {
+        "patterns": [
+            "01_document/*.docx"
+        ],
+        "estructura": "01_document/",
+        "punts": 1,
+        "penalitzacio_estructura": 0.25
+    },
+    "RA_CALC": {
+        "patterns": [
+            "02_calcul/*.xlsx"
+        ],
+        "estructura": "02_calcul/",
+        "punts": 1,
+        "penalitzacio_estructura": 0.25
+    },
+    "RA_PPT": {
+        "patterns": [
+            "03_presentacio/*.pptx"
+        ],
+        "estructura": "03_presentacio/",
+        "punts": 1,
+        "penalitzacio_estructura": 0.25
+    },
+    "RA_FINAL": {
+        "patterns": [
+            "04_integracio/*.docx"
+        ],
+        "estructura": "04_integracio/",
+        "punts": 1,
+        "penalitzacio_estructura": 0.25
+    },
+    "RA_MAIL_PDF": {
+        "patterns": [
+            "05_comunicacio/*.pdf"
+        ],
+        "estructura": "05_comunicacio/",
+        "punts": 1,
+        "penalitzacio_estructura": 0.25
+    },
+    "RA_MAIL_IMG": {
+        "patterns": [
+            "05_comunicacio/*.png",
+            "05_comunicacio/*.jpg",
+            "05_comunicacio/*.jpeg"
+        ],
+        "estructura": "05_comunicacio/",
+        "punts": 1,
+        "penalitzacio_estructura": 0.25
+    }
 }
