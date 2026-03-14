@@ -5,50 +5,31 @@ from pathlib import Path
 class ReposLocator:
     """
     Localitza els repositoris associats a cada unitat d'avaluació.
-    Llegeix el fitxer data/repos_map.json.
     """
 
-    def __init__(self, repos_root="repos", map_file="data/repos_map.json"):
-        self.repos_root = Path(repos_root)
+    def __init__(self, map_file):
+
         self.map_file = Path(map_file)
 
         if not self.map_file.exists():
-            raise FileNotFoundError(f"No s'ha trobat el fitxer {self.map_file}")
+            raise FileNotFoundError(f"No s'ha trobat el fitxer {map_file}")
 
-        with open(self.map_file, "r", encoding="utf-8") as f:
+        with open(self.map_file) as f:
             self.repo_map = json.load(f)
 
-    def get_repo_path(self, unitat):
+    def get_all_units(self):
         """
-        Retorna la ruta del repositori associat a una unitat d'avaluació.
-        """
-        if unitat not in self.repo_map:
-            raise KeyError(f"No hi ha repositori definit per la unitat '{unitat}'")
-
-        repo_name = self.repo_map[unitat]
-        repo_path = self.repos_root / repo_name
-
-        if not repo_path.exists():
-            raise FileNotFoundError(f"El repositori '{repo_path}' no existeix")
-
-        return repo_path
-
-    def list_unitats(self):
-        """
-        Retorna la llista de totes les unitats d'avaluació.
+        Retorna totes les unitats definides.
         """
         return list(self.repo_map.keys())
 
-if __name__ == "__main__":
-    print("Test repos locator")
+    def get_repo_path(self, unit):
+        """
+        Retorna el path del repositori associat a la unitat.
+        """
+        path = self.repo_map.get(unit)
 
-    try:
-        locator = ReposLocator()
+        if not path:
+            raise ValueError(f"No hi ha repositori definit per {unit}")
 
-        print("Unitats detectades:")
-        for unitat in locator.list_unitats():
-            path = locator.get_repo_path(unitat)
-            print(f"{unitat} -> {path}")
-
-    except Exception as e:
-        print("Error:", e)
+        return Path(path)
