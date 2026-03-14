@@ -75,3 +75,6 @@ repos/
 # Contextos que no pugen al repo remot
 # =====================================================
 contextos/
+
+# dades locals de correcció
+data/corrections.json
