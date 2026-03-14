@@ -1,51 +1,55 @@
 {
-    "RA_DOC": {
+    "RA_ANALISI": {
         "patterns": [
-            "01_document/*.docx"
+            "0221_muntatge/analisi.md"
         ],
-        "estructura": "01_document/",
+        "estructura": "0221_muntatge/",
         "punts": 1,
         "penalitzacio_estructura": 0.25
     },
-    "RA_CALC": {
+
+    "RA_DIAGNOSTIC": {
         "patterns": [
-            "02_calcul/*.xlsx"
+            "0221_muntatge/diagnostic.md"
         ],
-        "estructura": "02_calcul/",
+        "estructura": "0221_muntatge/",
         "punts": 1,
         "penalitzacio_estructura": 0.25
     },
-    "RA_PPT": {
+
+    "RA_VERIFICACIO": {
         "patterns": [
-            "03_presentacio/*.pptx"
+            "0221_muntatge/verificacio.md",
+            "0221_muntatge/verificació.md"
         ],
-        "estructura": "03_presentacio/",
+        "estructura": "0221_muntatge/",
         "punts": 1,
         "penalitzacio_estructura": 0.25
     },
-    "RA_FINAL": {
+
+    "RA_CORRECCIO": {
         "patterns": [
-            "04_integracio/*.docx"
+            "correccio.md"
         ],
-        "estructura": "04_integracio/",
+        "estructura": "",
         "punts": 1,
-        "penalitzacio_estructura": 0.25
+        "penalitzacio_estructura": 0
     },
-    "RA_MAIL_PDF": {
+
+    "RA_README": {
         "patterns": [
-            "05_comunicacio/*.pdf"
+            "README.md"
         ],
-        "estructura": "05_comunicacio/",
+        "estructura": "",
         "punts": 1,
-        "penalitzacio_estructura": 0.25
+        "penalitzacio_estructura": 0
     },
-    "RA_MAIL_IMG": {
+
+    "RA_ENUNCIAT": {
         "patterns": [
-            "05_comunicacio/*.png",
-            "05_comunicacio/*.jpg",
-            "05_comunicacio/*.jpeg"
+            "fitxers/*.docx"
         ],
-        "estructura": "05_comunicacio/",
+        "estructura": "fitxers/",
         "punts": 1,
         "penalitzacio_estructura": 0.25
     }
