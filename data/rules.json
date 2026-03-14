@@ -1,12 +1,31 @@
 {
-  "AE05": {
-    "unitat-1": {
-      "expected_path": "05_comunicacio/correu_enviat.png",
-      "type": "image"
-    },
-    "unitat-2": {
-      "expected_path": "05_comunicacio/correu_enviat.png",
-      "type": "image"
-    }
+  "RA_DOC": {
+    "path": "01_document/informe_servidor.docx",
+    "punts": 1
+  },
+
+  "RA_CALC": {
+    "path": "02_calcul/incidencies_sprint.xlsx",
+    "punts": 1
+  },
+
+  "RA_PPT": {
+    "path": "03_presentacio/sprint_t2_review.pptx",
+    "punts": 1
+  },
+
+  "RA_FINAL": {
+    "path": "04_integracio/informe_final.docx",
+    "punts": 1
+  },
+
+  "RA_MAIL_PDF": {
+    "path": "05_comunicacio/correu.pdf",
+    "punts": 1
+  },
+
+  "RA_MAIL_IMG": {
+    "path": "05_comunicacio/correu_enviat.png",
+    "punts": 1
   }
 }

@@ -71,10 +71,19 @@ repos/
 *.swp
 *.swo
 
-# =====================================================
-# Contextos que no pugen al repo remot
-# =====================================================
-contextos/
 
-# dades locals de correcció
+# =====================================================
+# DADES LOCALS (no publicar)
+# =====================================================
+
+data/repos_map.json
 data/corrections.json
+
+# repos clonats d'alumnes
+repos/
+
+# tokens i configuracions locals
+config/
+
+# contextos de xat
+contextos/

@@ -1,4 +1,7 @@
 {
-  "unitat-1": "repo-alumne-1",
-  "unitat-2": "repo-alumne-2"
+  "alumne1": {
+    "nom": "Nom Alumne",
+    "repo": "https://github.com/ORG/repo.git",
+    "actiu": true
+  }
 }
