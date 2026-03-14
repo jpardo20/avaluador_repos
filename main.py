@@ -3,7 +3,7 @@ from core.repo_scanner import RepoScanner
 from core.rule_engine import RuleEngine
 from core.correction_navigator import CorrectionNavigator
 from core.correction_registry import CorrectionRegistry
-
+from core.rules_registry import RulesRegistry
 
 def main():
 
@@ -15,6 +15,8 @@ def main():
     engine = RuleEngine()
     navigator = CorrectionNavigator(locator, scanner, engine)
     registry = CorrectionRegistry()
+
+    rules = RulesRegistry()
 
     units = locator.get_all_units()
 
@@ -31,8 +33,10 @@ def main():
 
         ra = "AE05"
 
-        expected_path = "05_comunicacio/correu_enviat.png"
-        evidence_type = "image"
+        rule = rules.get_rule(ra, unit)
+
+        expected_path = rule["expected_path"]
+        evidence_type = rule["type"]
 
         result = engine.evaluate(repo, files, expected_path, evidence_type)
 

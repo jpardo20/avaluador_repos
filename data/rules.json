@@ -1,0 +1,12 @@
+{
+  "AE05": {
+    "unitat-1": {
+      "expected_path": "05_comunicacio/correu_enviat.png",
+      "type": "image"
+    },
+    "unitat-2": {
+      "expected_path": "05_comunicacio/correu_enviat.png",
+      "type": "image"
+    }
+  }
+}
