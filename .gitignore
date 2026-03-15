@@ -87,5 +87,10 @@ config/
 
 # contextos de xat
 contextos/
-data/notes_*.csv
-data/notes_*.md
+
+# fitxers amb dades que no es volen publicar
+data/*.md
+data/*.csv
+
+# fitxers amb exemples que SI que es volen publicar
+!data/*.exemple.md
