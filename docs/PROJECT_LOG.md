@@ -336,3 +336,64 @@ data/notes_smx.csv
 data/notes_smx.md
 
 Aquests informes mostren les notes per Resultat d’Aprenentatge (RA).
+
+# Evolució del model de rules.json (rúbrica executable)
+
+Inicialment `rules.json` definia únicament **evidències esperades** per cada RA.
+
+Exemple:
+
+```
+RA_ANALISI → analisi.md
+```
+
+Aquest model permetia detectar si una evidència existia o no.
+
+Amb l’evolució del projecte s’introdueix un model més ric:
+
+```
+regla → evidència → RA → pes
+```
+
+Nova estructura conceptual:
+
+```json
+{
+  "RA_ANALISI": {
+    "nom": "Anàlisi del muntatge",
+    "criteri": "Document d'anàlisi inicial",
+    "ra": {
+      "RA1": 2
+    },
+    "expected_files": [
+      "0221_muntatge/analisi.md"
+    ]
+  }
+}
+```
+
+En aquest model:
+
+- cada regla representa **una evidència avaluada**
+- cada evidència pot contribuir a **un o més RA**
+- cada contribució té **un pes**
+
+Això converteix `rules.json` en:
+
+```
+rúbrica docent executable
+```
+
+Avantatges del model:
+
+- desacoblament complet del criteri docent
+- possibilitat de calcular notes per RA automàticament
+- generació automàtica de rúbriques
+- adaptació a diferents mòduls sense modificar el codi
+
+Aquest canvi representa una evolució del sistema:
+
+```
+detector d’evidències
+→ motor d’avaluació configurable
+```

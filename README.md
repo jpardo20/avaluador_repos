@@ -464,3 +464,69 @@ data/notes_smx.md
 ## Exemple de sortida
 
 | Alumne | RA_ANALISI | RA_DIAGNOSTIC | RA_VERIFICACIO | RA_CORRECCIO | RA_README | RA_ENUNCIAT | TOTAL |
+
+# Evolució del model de configuració: rules.json com a rúbrica docent
+
+Inicialment el fitxer `rules.json` definia únicament **evidències esperades**.
+
+Exemple:
+
+```
+RA_ANALISI → fitxer analisi.md
+```
+
+Amb l’evolució del projecte, `rules.json` passa a representar **una rúbrica docent estructurada**.
+
+Cada regla pot definir:
+
+- el nom de l’evidència
+- el criteri pedagògic
+- les evidències esperades
+- la contribució als Resultats d’Aprenentatge (RA)
+
+Exemple conceptual:
+
+```json
+{
+  "RA_ANALISI": {
+    "nom": "Anàlisi del muntatge",
+    "criteri": "Document d'anàlisi inicial del sistema",
+    "ra": {
+      "RA1": 2
+    },
+    "expected_files": [
+      "0221_muntatge/analisi.md"
+    ]
+  }
+}
+```
+
+En aquest model:
+
+- una **evidència** pot contribuir a **un o més RA**
+- cada contribució té **un pes**
+
+Exemple:
+
+```
+RA_VERIFICACIO
+→ RA2 (1 punt)
+→ RA3 (1 punt)
+```
+
+Aquest model permet:
+
+- calcular notes per RA
+- calcular notes finals de mòdul
+- generar rúbriques automàticament
+- mantenir tota la configuració docent fora del codi Python
+
+El motor del projecte passa així de ser només un **detector d’evidències** a ser un **motor d’avaluació configurable**.
+
+En el futur aquesta configuració permetrà generar automàticament:
+
+- rúbrica del treball (`rubrica.md`)
+- rúbrica en PDF
+- taules d’avaluació
+- notes per RA
+- notes finals de mòdul

@@ -8,6 +8,10 @@
 
         "RA_ANALISI": {
             "nom": "Anàlisi del muntatge",
+            "criteri": "Document d'anàlisi inicial del muntatge del sistema.",
+            "ra": {
+                "RA1": 2
+            },
             "expected_files": [
                 "0221_muntatge/analisi.md"
             ]
@@ -15,6 +19,10 @@
 
         "RA_DIAGNOSTIC": {
             "nom": "Diagnòstic",
+            "criteri": "Diagnòstic dels problemes detectats durant el muntatge.",
+            "ra": {
+                "RA2": 2
+            },
             "expected_files": [
                 "0221_muntatge/diagnostic.md"
             ]
@@ -22,6 +30,11 @@
 
         "RA_VERIFICACIO": {
             "nom": "Verificació",
+            "criteri": "Comprovació del funcionament correcte del sistema.",
+            "ra": {
+                "RA2": 1,
+                "RA3": 1
+            },
             "expected_files": [
                 "0221_muntatge/verificacio.md",
                 "0221_muntatge/verificació.md"
@@ -30,6 +43,10 @@
 
         "RA_CORRECCIO": {
             "nom": "Informe de correcció",
+            "criteri": "Informe final amb les correccions aplicades.",
+            "ra": {
+                "RA3": 2
+            },
             "expected_files": [
                 "correccio.md"
             ],
@@ -38,6 +55,10 @@
 
         "RA_README": {
             "nom": "Documentació README",
+            "criteri": "README del repositori amb la descripció del projecte.",
+            "ra": {
+                "RA4": 1
+            },
             "expected_files": [
                 "README.md"
             ],
@@ -46,6 +67,10 @@
 
         "RA_ENUNCIAT": {
             "nom": "Enunciat del treball",
+            "criteri": "Document original de l'enunciat lliurat amb el treball.",
+            "ra": {
+                "RA4": 1
+            },
             "expected_files": [
                 "fitxers/*.docx"
             ]
