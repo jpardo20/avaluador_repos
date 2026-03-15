@@ -175,6 +175,54 @@ Això permet:
 
 # Decisions importants
 
+## Principi de disseny del motor
+
+El motor d’avaluació segueix tres principis de disseny.
+
+### 1. Desacoblament
+
+La lògica del motor Python no conté informació docent.
+
+Tot el criteri d’avaluació es defineix en fitxers de configuració:
+
+- rules.json
+- repos_map.json
+- config_smx.json
+- config_dam.json
+
+Això permet reutilitzar el motor en diferents cicles i mòduls sense modificar el codi.
+
+---
+
+### 2. Robustesa davant repositoris imperfectes
+
+Els repositoris d’alumnes sovint tenen problemes com:
+
+- noms de fitxer incorrectes
+- evidències en carpetes incorrectes
+- estructures no exactament iguals a l’enunciat
+
+Per aquest motiu el motor implementa dos nivells de detecció:
+
+1. coincidència exacta
+2. cerca d’evidències alternatives
+
+Això evita falsos negatius en la correcció automàtica.
+
+---
+
+### 3. Correcció assistida
+
+El sistema no intenta substituir el professor.
+
+El sistema:
+
+- detecta evidències
+- presenta possibles alternatives
+- registra la decisió docent
+
+Això permet reduir el temps de correcció mantenint el criteri pedagògic.
+
 ## Unitat d’avaluació abstracta
 
 El motor treballa amb:
