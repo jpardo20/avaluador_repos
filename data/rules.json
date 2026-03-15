@@ -1,79 +1,92 @@
 {
     "config": {
-        "default_points": 1,
-        "default_structure_penalty": 0.25
+        "default_points": 1.0,
+        "default_structure_penalty": 0.25,
+        "allow_partial_credit": true
     },
 
     "rules": {
 
-        "RA_ANALISI": {
+        "EV_ANALISI": {
             "nom": "Anàlisi del muntatge",
             "criteri": "Document d'anàlisi inicial del muntatge del sistema.",
-            "ra": {
-                "RA1": 2
+            "max_score": 2.0,
+            "ra_pes": {
+                "RA1": 2.0
             },
             "expected_files": [
                 "0221_muntatge/analisi.md"
-            ]
+            ],
+            "extensions": [".md"]
         },
 
-        "RA_DIAGNOSTIC": {
+        "EV_DIAGNOSTIC": {
             "nom": "Diagnòstic",
             "criteri": "Diagnòstic dels problemes detectats durant el muntatge.",
-            "ra": {
-                "RA2": 2
+            "max_score": 2.0,
+            "ra_pes": {
+                "RA2": 2.0
             },
             "expected_files": [
                 "0221_muntatge/diagnostic.md"
-            ]
+            ],
+            "extensions": [".md"]
         },
 
-        "RA_VERIFICACIO": {
+        "EV_VERIFICACIO": {
             "nom": "Verificació",
             "criteri": "Comprovació del funcionament correcte del sistema.",
-            "ra": {
-                "RA2": 1,
-                "RA3": 1
+            "max_score": 2.0,
+            "ra_pes": {
+                "RA2": 1.0,
+                "RA3": 1.0
             },
             "expected_files": [
                 "0221_muntatge/verificacio.md",
                 "0221_muntatge/verificació.md"
-            ]
+            ],
+            "extensions": [".md"]
         },
 
-        "RA_CORRECCIO": {
+        "EV_CORRECCIO": {
             "nom": "Informe de correcció",
             "criteri": "Informe final amb les correccions aplicades.",
-            "ra": {
-                "RA3": 2
+            "max_score": 2.0,
+            "ra_pes": {
+                "RA3": 2.0
             },
             "expected_files": [
                 "correccio.md"
             ],
-            "structure_penalty": 0
+            "extensions": [".md"],
+            "structure_penalty": 0.0
         },
 
-        "RA_README": {
+        "EV_README": {
             "nom": "Documentació README",
             "criteri": "README del repositori amb la descripció del projecte.",
-            "ra": {
-                "RA4": 1
+            "max_score": 1.0,
+            "ra_pes": {
+                "RA4": 1.0
             },
             "expected_files": [
                 "README.md"
             ],
-            "structure_penalty": 0
+            "extensions": [".md"],
+            "structure_penalty": 0.0
         },
 
-        "RA_ENUNCIAT": {
+        "EV_ENUNCIAT": {
             "nom": "Enunciat del treball",
             "criteri": "Document original de l'enunciat lliurat amb el treball.",
-            "ra": {
-                "RA4": 1
+            "max_score": 1.0,
+            "ra_pes": {
+                "RA4": 1.0
             },
             "expected_files": [
                 "fitxers/*.docx"
-            ]
+            ],
+            "extensions": [".docx"]
         }
 
     }

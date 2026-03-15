@@ -33,6 +33,7 @@ class RepoScanner:
             "spreadsheets": [],
             "presentations": [],
             "others": [],
+            "by_extension": {}
         }
 
         for path in repo_path.rglob("*"):
@@ -41,6 +42,8 @@ class RepoScanner:
                 continue
 
             ext = path.suffix.lower()
+            
+            inventory["by_extension"].setdefault(ext, []).append(str(path))
 
             if ext in self.IMAGE_EXTENSIONS:
                 inventory["images"].append(str(path))
@@ -56,5 +59,6 @@ class RepoScanner:
 
             else:
                 inventory["others"].append(str(path))
+
 
         return inventory

@@ -17,3 +17,6 @@ class RulesRegistry:
             return None
 
         return self.rules[ra]
+    
+    def get_all_rules(self):
+        return self.rules.keys()
