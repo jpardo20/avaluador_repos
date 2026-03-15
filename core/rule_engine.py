@@ -13,7 +13,7 @@ class RuleEngine:
         "presentation": "presentations"
     }
 
-    def evaluate(self, repo_path, inventory, expected_path, evidence_type):
+    def evaluate(self, repo_path, inventory, expected_path, evidence_extensions):
         """
         Avalua si existeix l'evidència esperada.
 
@@ -39,14 +39,12 @@ class RuleEngine:
             }
 
         # 2️⃣ Buscar alternatives segons tipus
-        key = self.TYPE_MAP.get(evidence_type)
+        alternatives = []
 
-        if key and key in inventory:
+        for ext in evidence_extensions:
+            alternatives.extend(inventory["by_extension"].get(ext, []))
 
-            alternatives = inventory[key]
-
-            if alternatives:
-
+        if alternatives:
                 return {
                     "status": "alternatives",
                     "file": None,

@@ -48,9 +48,11 @@ def main():
                 continue
 
             expected_path = rule["expected_files"][0]
+            extensions = rule.get("extensions", [])
+
             evidence_type = "document"
 
-            result = engine.evaluate(repo, files, expected_path, evidence_type)
+            result = engine.evaluate(repo, files, expected_path, extensions)
 
             unitat = unit
 
@@ -65,14 +67,20 @@ def main():
                 print(existing)
                 continue
 
+            max_score = rule.get("max_score", 1)
+
             # assignació automàtica simple
             if result["status"] == "exact_match":
-                nota = 2
+                nota = max_score
                 comentari = "evidència correcta"
 
             elif result["status"] == "alternatives":
-                nota = 1
-                comentari = "evidència parcial"
+                if rules.config.get("allow_partial_credit", False):
+                    nota = max_score / 2
+                    comentari = "evidència parcial"
+                else:
+                    nota = 0
+                    comentari = "evidència no vàlida"
 
             else:
                 nota = 0
