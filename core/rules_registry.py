@@ -6,14 +6,14 @@ class RulesRegistry:
     def __init__(self, rules_file="data/rules.json"):
 
         with open(rules_file, "r") as f:
-            self.rules = json.load(f)
+            data = json.load(f)
 
-    def get_rule(self, ra, unit):
+            self.config = data["config"]
+            self.rules = data["rules"]
+
+    def get_rule(self, ra, unit=None):
 
         if ra not in self.rules:
             return None
 
-        if unit not in self.rules[ra]:
-            return None
-
-        return self.rules[ra][unit]
+        return self.rules[ra]

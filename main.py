@@ -4,6 +4,7 @@ from core.rule_engine import RuleEngine
 from core.correction_navigator import CorrectionNavigator
 from core.correction_registry import CorrectionRegistry
 from core.rules_registry import RulesRegistry
+from tools.notes_exporter import export_notes
 
 def main():
 
@@ -32,48 +33,66 @@ def main():
 
         files = scanner.scan_repo(repo)
 
-        ra = "AE05"
+        for ra in rules.rules:
 
-        rule = rules.get_rule(ra, unit)
+            rule = rules.get_rule(ra)
 
-        expected_path = rule["expected_path"]
-        evidence_type = rule["type"]
+            print("RA:", ra)
+            print("RULE:", rule)
 
-        result = engine.evaluate(repo, files, expected_path, evidence_type)
+            if not rule:
+                continue
 
-        unitat = unit
+            expected_path = rule["expected_files"][0]
+            evidence_type = "document"
 
-        print(f"\nUnitat: {unitat}")
-        print(f"Resultat: {result}")
+            result = engine.evaluate(repo, files, expected_path, evidence_type)
 
-        # mirar si ja està corregit
-        existing = registry.get_correction(ra, unitat)
+            unitat = unit
 
-        if existing:
-            print("Ja corregit:")
-            print(existing)
-            continue
+            print(f"\nUnitat: {unitat}")
+            print(f"Resultat: {result}")
 
-        # assignació automàtica simple
-        if result["status"] == "exact_match":
-            nota = 2
-            comentari = "evidència correcta"
+            # mirar si ja està corregit
+            existing = registry.get_correction(ra, unitat)
 
-        elif result["status"] == "partial_match":
-            nota = 1
-            comentari = "evidència parcial"
+            if existing:
+                print("Ja corregit:")
+                print(existing)
+                continue
 
-        else:
-            nota = 0
-            comentari = "sense evidència"
+            # assignació automàtica simple
+            if result["status"] == "exact_match":
+                nota = 2
+                comentari = "evidència correcta"
 
-        registry.set_correction(ra, unitat, nota, comentari)
+            elif result["status"] == "alternatives":
+                nota = 1
+                comentari = "evidència parcial"
 
-        print("Correcció guardada:")
-        print({
-            "nota": nota,
-            "comentari": comentari
-        })
+            else:
+                nota = 0
+                comentari = "sense evidència"
+
+            registry.set_correction(ra, unitat, nota, comentari)
+
+            print("Correcció guardada:")
+            print({
+                "nota": nota,
+                "comentari": comentari
+            })
+
+    print("\n=== Generant informes finals ===\n")
+
+    export_notes(
+        corrections_file="data/corrections.json",
+        repos_map_file="data/repos_map.json",
+        output_csv="data/notes_smx.csv",
+        output_md="data/notes_smx.md"
+    )
+
+    print("✔ notes_smx.csv generat")
+    print("✔ notes_smx.md generat")
 
 
 if __name__ == "__main__":
