@@ -1,4 +1,4 @@
-# Eina docent per a l’avaluació assistida de repositoris Git d’alumnes
+# Eina docent per a l’avaluació assistida de repositoris Git d’alumnes.
 
 Aquest projecte té com a objectiu **reduir radicalment el temps de correcció d’activitats entregades en repositoris Git**, mantenint al mateix temps el criteri docent.
 
@@ -13,7 +13,7 @@ El projecte està pensat per utilitzar-se en entorns docents com:
 - **SMX** (Sistemes Microinformàtics i Xarxes)
 - **DAM** (Desenvolupament d’Aplicacions Multiplataforma)
 
-El motor de correcció és **independent del cicle** i funciona mitjançant configuració.
+El motor de correcció és **independent del cicle** i funciona mitjançant fitxers de configuració.
 
 ---
 
@@ -43,7 +43,7 @@ Però això té problemes:
 
 Això provoca dues situacions dolentes:
 
-1. correccions automàtiques injustes
+1. correccions automàtiques injustes  
 2. correcció manual molt lenta
 
 ---
@@ -115,9 +115,26 @@ repo = repositori del grup
 
 ---
 
+# Avantatge del model
+
+El motor només treballa amb:
+
+```
+RA + unitat_avaluacio
+```
+
+Per tant funciona igual per:
+
+- repositoris individuals
+- repositoris de grup
+
+---
+
 # Model de navegació
 
-La correcció es fa per **Resultat d’Aprenentatge (RA)**.
+La correcció no es fa per alumne.
+
+Es fa per **Resultat d’Aprenentatge (RA)**.
 
 Ordre de revisió:
 
@@ -133,151 +150,178 @@ Avantatges:
 
 ---
 
-# Arquitectura del motor
+# Evidències
 
-El motor s’organitza en components independents.
+Cada RA defineix una **evidència esperada**.
+
+Exemple:
 
 ```
-main.py
-↓
-ReposLocator
-↓
-RepoScanner
-↓
-RuleEngine
-↓
-CorrectionRegistry
+05_comunicacio/correu_enviat.png
+```
+
+El sistema comprova si existeix exactament.
+
+Si no existeix, es busquen **evidències alternatives**.
+
+---
+
+# Cerca d’evidències alternatives
+
+El sistema buscarà al repositori:
+
+```
+*.png
+*.jpg
+*.jpeg
+```
+
+Aquestes imatges es mostraran com a possibles evidències.
+
+El professor decidirà si alguna és vàlida.
+
+---
+
+# Tipus de casos possibles
+
+El sistema contempla quatre situacions:
+
+### Cas 1 — evidència perfecta
+
+```
+estructura correcta
+evidència correcta
+```
+
+### Cas 2 — evidència correcta però mal ubicada
+
+```
+estructura incorrecta
+evidència correcta
+```
+
+### Cas 3 — evidència incorrecta
+
+```
+imatge present però no vàlida
+```
+
+### Cas 4 — cap evidència
+
+```
+no hi ha cap fitxer utilitzable
 ```
 
 ---
 
-# Components del sistema
+# Visualització d’evidències
 
-## ReposLocator
+Quan el professor selecciona una evidència:
 
-Responsabilitat:
+la imatge s’obre amb el visor del sistema operatiu.
 
-Localitzar el repositori associat a cada unitat d’avaluació.
+No es requereix cap interfície gràfica complexa.
 
-Entrada:
+---
+
+# Persistència de correccions
+
+Les correccions es guarden en un fitxer estructurat.
+
+Per exemple:
 
 ```
-data/repos_map.json
+correccions.json
 ```
 
-Sortida:
+Això permet:
+
+- reprendre correccions
+- no repetir evidències ja revisades
+- modificar notes ja assignades
+
+---
+
+# Arquitectura del projecte
+
+El projecte es divideix en:
 
 ```
-path al repositori
+motor de correcció
++
+configuració docent
 ```
 
 ---
 
-## RepoScanner
+# Implementació actual del projecte
 
-Responsabilitat:
+Tot i que el README descriu el **model conceptual complet del motor d’avaluació**, el projecte ja disposa d’una **implementació funcional parcial** utilitzada per corregir activitats reals.
 
-Escanejar el repositori i generar un inventari de fitxers.
+Actualment el sistema permet **avaluar repositoris clonats de GitHub Classroom i generar notes automàticament**.
 
-Exemple de sortida:
-
-```
-[
-    "05_comunicacio/correu_enviat.png",
-    "01_document/informe.docx"
-]
-```
-
----
-
-## RuleEngine
-
-Responsabilitat:
-
-Aplicar regles d’evidència definides a configuració.
-
-Exemple de resultat:
+Flux actual utilitzat a SMX:
 
 ```
-{
-    "status": "exact_match",
-    "file": "05_comunicacio/correu_enviat.png",
-    "alternatives": []
-}
+gh classroom clone student-repos
+↓
+repos/
+↓
+tools/evaluate_repos.py
+↓
+data/notes_smx.csv
+data/notes_smx.md
 ```
 
-Possibles resultats:
-
-```
-exact_match
-alternative_found
-no_evidence
-```
-
----
-
-## RulesRegistry
-
-Responsabilitat:
-
-Carregar les regles d’evidència definides per cada RA.
-
-Fitxer:
+Aquest script analitza els repositoris clonats i detecta evidències definides a:
 
 ```
 data/rules.json
 ```
 
-Exemple:
+Els alumnes es mapegen mitjançant:
 
 ```
-{
-  "unitat-1": {
-    "expected_path": "05_comunicacio/correu_enviat.png",
-    "evidence_type": "image"
-  }
-}
+data/repos_map.json
 ```
 
-Aquest sistema permet:
+A partir d'aquesta informació el sistema:
 
-- modificar evidències esperades
-- adaptar-se a diferents mòduls
-- evitar canvis de codi
+1. escaneja cada repositori
+2. comprova evidències definides per cada RA
+3. calcula la puntuació
+4. genera un informe de notes
 
 ---
 
-## CorrectionRegistry
+# Visualització dels resultats
 
-Responsabilitat:
-
-Guardar i recuperar les correccions realitzades.
-
-Fitxer:
+Per facilitar la lectura dels resultats, el sistema utilitza símbols:
 
 ```
-data/corrections.json
+✔ evidència trobada
+✘ evidència absent
 ```
 
-Permet:
-
-- reprendre correccions
-- evitar repetir revisions
-- modificar notes
+A més, el sistema mostra **Nom Cognoms de l’alumne** en lloc del nom del repositori.
 
 ---
 
-# Estructura del repositori
+# Estructura actual del repositori
 
 ```
 avaluador_repos/
 
 core/
     repos_locator.py
-    repo_scanner.py
-    rule_engine.py
-    rules_registry.py
-    correction_registry.py
+    detector_evidencies.py
+    buscador_alternatives.py
+    navegador_ra.py
+    visor_imatges.py
+    registre_avaluacions.py
+
+tools/
+    evaluate_repos.py
 
 data/
     repos_map.json
@@ -285,34 +329,83 @@ data/
     corrections.json
 
 repos/
-    repositoris de prova
+    repositoris clonats de GitHub Classroom
 
 main.py
 ```
 
 ---
 
-# Flux complet del sistema
+# Configuració per cicle
+
+Els mòduls i RA es defineixen en fitxers de configuració.
+
+Exemple:
+
+```
+config/smx.json
+config/dam.json
+```
+
+Aquests fitxers defineixen:
+
+- unitats d’avaluació
+- mòduls
+- resultats d’aprenentatge
+- evidències esperades
+
+---
+
+# Mapatge unitat → repositori
+
+El fitxer:
+
+```
+data/repos_map.json
+```
+
+defineix quin repositori correspon a cada unitat d’avaluació.
+
+Exemple:
+
+```
+{
+  "github-user-alumne-1": "smx-sprint-t2-github-user-alumne-1",
+  "github-user-alumne-2": "smx-sprint-t2-github-user-alumne-2"
+}
+```
+
+---
+
+# Flux conceptual complet del sistema
+
+El motor complet seguirà aquest flux:
 
 ```
 0 carregar correccions existents
-
-1 carregar configuració de regles
-
-2 carregar mapatge unitat → repositori
-
-3 generar llista de unitats
-
-4 escanejar repositori
-
-5 aplicar regles d’evidència
-
-6 mostrar resultats al professor
-
-7 registrar nota i comentari
-
-8 guardar correcció
+1 carregar configuració del cicle
+2 construir unitats d’avaluació
+3 construir la llista de RA
+4 generar totes les combinacions (RA, unitat)
+5 localitzar repositori associat
+6 detectar evidència exacta
+7 cercar evidències alternatives
+8 mostrar evidència al professor
+9 registrar nota i comentari
+10 guardar correcció i continuar
 ```
+
+---
+
+# Estat actual del projecte
+
+El projecte es troba en una fase **intermèdia**:
+
+- el **model conceptual del motor d’avaluació està definit**
+- existeix **una implementació funcional per generar notes automàtiques**
+- el sistema ja s’utilitza per corregir activitats de SMX
+
+El desenvolupament futur integrarà aquesta implementació amb el motor complet d’avaluació assistida.
 
 ---
 
