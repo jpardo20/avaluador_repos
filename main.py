@@ -86,7 +86,13 @@ def main():
                 nota = 0
                 comentari = "sense evidència"
 
-            registry.set_correction(ra, unitat, nota, comentari)
+            registry.set_correction(
+                ra,
+                unitat,
+                nota,
+                comentari,
+                result
+            )
 
             print("Correcció guardada:")
             print({

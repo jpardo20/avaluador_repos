@@ -50,7 +50,7 @@ class CorrectionRegistry:
         """
         return self.data.get(ra, {}).get(unitat)
 
-    def set_correction(self, ra, unitat, nota, comentari=""):
+    def set_correction(self, ra, unitat, nota, comentari="", details=None):
         """
         Desa o actualitza una correcció.
 
@@ -58,14 +58,23 @@ class CorrectionRegistry:
         :param unitat: unitat concreta
         :param nota: puntuació
         :param comentari: comentari opcional
+        :param details: resultat del motor d'avaluació
         """
+
         if ra not in self.data:
             self.data[ra] = {}
 
-        self.data[ra][unitat] = {
+        entry = {
             "nota": nota,
             "comentari": comentari
         }
+
+        if details:
+            entry["status"] = details.get("status")
+            entry["file"] = details.get("file")
+            entry["alternatives"] = details.get("alternatives", [])
+
+        self.data[ra][unitat] = entry
 
         self._save()
 
