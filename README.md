@@ -428,3 +428,39 @@ per millorar:
 - eficiència de correcció
 - justícia de l’avaluació
 - coherència pedagògica
+
+---
+
+# Exportació de notes per Resultat d’Aprenentatge (RA)
+
+El sistema permet generar informes automàtics de qualificació a partir de les correccions registrades.
+
+Les correccions es desen a:
+
+data/corrections.json
+
+Aquest fitxer conté la informació en format:
+
+RA → unitat d’avaluació → nota
+
+A partir d’aquest registre el sistema pot generar informes estructurats per RA.
+
+## Script utilitzat
+
+tools/notes_exporter.py
+
+Aquest script:
+
+1. llegeix el fitxer `corrections.json`
+2. reorganitza les notes per unitat d’avaluació
+3. calcula el total
+4. exporta informes
+
+Fitxers generats:
+
+data/notes_smx.csv
+data/notes_smx.md
+
+## Exemple de sortida
+
+| Alumne | RA_ANALISI | RA_DIAGNOSTIC | RA_VERIFICACIO | RA_CORRECCIO | RA_README | RA_ENUNCIAT | TOTAL |
