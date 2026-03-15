@@ -238,3 +238,24 @@ Els següents passos se centraran en:
 - millorar la revisió assistida
 - generar informes automàtics
 - integrar múltiples mòduls i RA.
+
+---
+
+# Integració del motor de notes SMX
+
+S’ha implementat un script per avaluar automàticament repositoris clonats de GitHub Classroom.
+
+Components principals:
+
+- `tools/evaluate_repos.py`
+- `data/rules.json`
+- `data/repos_map.json`
+
+El sistema:
+
+1. Escaneja repositoris clonats.
+2. Aplica regles definides en JSON.
+3. Calcula notes per RA.
+4. Exporta resultats a CSV i Markdown.
+
+Aquest motor ja s’està utilitzant per corregir activitats del mòdul SMX.
