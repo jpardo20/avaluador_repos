@@ -25,11 +25,15 @@ class ReposLocator:
 
     def get_repo_path(self, unit):
         """
-        Retorna el path del repositori associat a la unitat.
+        Retorna el path local del repositori associat a la unitat.
         """
-        path = self.repo_map.get(unit)
+        repo_info = self.repo_map.get(unit)
 
-        if not path:
+        if not repo_info:
             raise ValueError(f"No hi ha repositori definit per {unit}")
 
-        return Path(path)
+        repo_url = repo_info["repo"]
+
+        repo_name = repo_url.split("/")[-1].replace(".git", "")
+
+        return Path("repos") / "smx-sprint-t2" / repo_name

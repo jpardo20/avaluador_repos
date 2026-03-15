@@ -2,6 +2,7 @@
   "alumne1": {
     "nom": "Nom Alumne",
     "repo": "https://github.com/ORG/repo.git",
+    "unitat": "alumne", // "unitat": "grup",
     "actiu": true
   }
 }
