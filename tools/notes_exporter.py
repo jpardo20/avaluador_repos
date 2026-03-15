@@ -1,5 +1,6 @@
 import json
 import csv
+from core.rules_registry import RulesRegistry
 
 
 def export_notes(corrections_file, repos_map_file, output_csv, output_md):
@@ -9,6 +10,8 @@ def export_notes(corrections_file, repos_map_file, output_csv, output_md):
 
     with open(repos_map_file) as f:
         repos = json.load(f)
+
+    rules = RulesRegistry()
 
     ras = list(corrections.keys())
 
@@ -42,14 +45,17 @@ def export_notes(corrections_file, repos_map_file, output_csv, output_md):
         for ra in ras:
 
             nota = ras_data.get(ra, 0)
-            row[ra] = nota
+            label = rules.get_rule(ra)["nom"]
+            row[label] = nota
             total += nota
 
         row["TOTAL"] = total
 
         rows.append(row)
 
-    fieldnames = ["unitat", "alumne"] + ras + ["TOTAL"]
+    ras_labels = [rules.get_rule(ra)["nom"] for ra in ras]
+
+    fieldnames = ["unitat", "alumne"] + ras_labels + ["TOTAL"]
 
     # CSV
     with open(output_csv, "w", newline="") as f:
@@ -61,9 +67,9 @@ def export_notes(corrections_file, repos_map_file, output_csv, output_md):
     # Markdown
     with open(output_md, "w") as f:
 
-        f.write("# Notes SMX per RA\n\n")
-
-        header = "| Alumne | " + " | ".join(ras) + " | TOTAL |\n"
+        f.write("# Avaluació d'evidències del lliurament (SMX)\n\n")
+        
+        header = "| Alumne | " + " | ".join(ras_labels) + " | TOTAL |\n"
         sep = "|---" * (len(ras) + 2) + "|\n"
 
         f.write(header)
@@ -71,7 +77,7 @@ def export_notes(corrections_file, repos_map_file, output_csv, output_md):
 
         for r in rows:
 
-            vals = [str(r[ra]) for ra in ras]
+            vals = [str(r[rules.get_rule(ra)["nom"]]) for ra in ras]
 
             f.write(
                 f"| {r['alumne']} | " +

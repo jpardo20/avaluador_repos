@@ -37,7 +37,11 @@ def main():
 
             rule = rules.get_rule(ra)
 
-            print("RA:", ra)
+            nom_regla = rule.get("nom", ra)
+
+            print("Regla:", nom_regla)
+            print("ID:", ra)
+
             print("RULE:", rule)
 
             if not rule:
