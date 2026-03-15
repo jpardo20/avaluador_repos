@@ -5,6 +5,7 @@ from core.correction_navigator import CorrectionNavigator
 from core.correction_registry import CorrectionRegistry
 from core.rules_registry import RulesRegistry
 from tools.notes_exporter import export_notes
+from tools.feedback_exporter import export_feedback
 
 def main():
 
@@ -112,6 +113,13 @@ def main():
     print("✔ notes_smx.csv generat")
     print("✔ notes_smx.md generat")
 
+    export_feedback(
+        corrections_file="data/corrections.json",
+        repos_map_file="data/repos_map.json",
+        output_md="data/feedback_smx.md"
+    )
+
+    print("✔ feedback_smx.md generat")
 
 if __name__ == "__main__":
     main()
