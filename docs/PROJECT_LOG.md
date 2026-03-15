@@ -307,3 +307,32 @@ El sistema:
 4. Exporta resultats a CSV i Markdown.
 
 Aquest motor ja s’està utilitzant per corregir activitats del mòdul SMX.
+
+
+---
+
+# Integració de l’exportador de notes per RA
+
+S’ha implementat un component nou:
+
+tools/notes_exporter.py
+
+Aquest script transforma la informació guardada a:
+
+data/corrections.json
+
+en informes de notes utilitzables.
+
+El sistema:
+
+1. llegeix les correccions registrades
+2. reorganitza la informació per unitat d’avaluació
+3. calcula el total de punts
+4. genera informes
+
+Fitxers generats:
+
+data/notes_smx.csv
+data/notes_smx.md
+
+Aquests informes mostren les notes per Resultat d’Aprenentatge (RA).
