@@ -48,12 +48,22 @@ def main():
             if not rule:
                 continue
 
-            expected_path = rule["expected_files"][0]
+            expected_paths = rule["expected_files"]
             extensions = rule.get("extensions", [])
 
             evidence_type = "document"
 
-            result = engine.evaluate(repo, files, expected_path, extensions)
+            result = None
+
+            for path in expected_paths:
+
+                result = engine.evaluate(repo, files, path, extensions)
+
+                if result["status"] == "exact_match":
+                    break
+
+                if result["status"] == "near_match":
+                    break
 
             unitat = unit
 
@@ -74,6 +84,16 @@ def main():
             if result["status"] == "exact_match":
                 nota = max_score
                 comentari = "evidència correcta"
+
+            elif result["status"] == "near_match":
+                penalty = rules.config.get("default_structure_penalty", 0.25)
+                nota = max_score * (1 - penalty)
+                comentari = "nom incorrecte"
+
+            elif result["status"] == "wrong_folder":
+                penalty = rules.config.get("default_structure_penalty", 0.4)
+                nota = max_score * (1 - penalty)
+                comentari = "estructura incorrecta"
 
             elif result["status"] == "alternatives":
                 if rules.config.get("allow_partial_credit", False):
